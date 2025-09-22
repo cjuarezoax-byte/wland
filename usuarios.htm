@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<title>WLand</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+<div class="w3-container">
+  <div class="w3-bar w3-black">
+    <a href="index.html" class="w3-bar-item w3-button w3-mobile w3-red">Home</a>
+    <a href="usuarios.htm" class="w3-bar-item w3-button w3-mobile">Usuarios</a>
+    <a href="proveedores.htm" class="w3-bar-item w3-button w3-mobile">Proveedores</a>
+    <div class="w3-dropdown-hover w3-mobile">
+      <button class="w3-button">Servicios <i class="fa fa-caret-down"></i></button>
+      <div class="w3-dropdown-content w3-bar-block w3-dark-grey">
+        <a href="telcel.htm" class="w3-bar-item w3-button w3-mobile">Telcel</a>
+        <a href="telmex.htm" class="w3-bar-item w3-button w3-mobile">Telmex</a>
+        <a href="m365.htm" class="w3-bar-item w3-button w3-mobile">M365</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>Usuarios</h2>
+  <div class="w3-bar w3-border">
+    <button class="w3-bar-item w3-button" onclick="listUser()">Todos</button>
+    <button class="w3-bar-item w3-button" onclick="listUser()">Activos</button>
+    <button class="w3-bar-item w3-button" onclick="listUser()">Bajas</button>
+  </div>
+  <p id="demolu"></p>
+</div>
+
+<script>
+function listUser(){
+      const dbParam = JSON.stringify({"limit":200});
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.onload = function() {
+        myObj = JSON.parse(this.responseText);
+        let text = "<table class='w3-table w3-striped w3-border'>" + "<tr><th>Num</th><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Departamento</th><th>Puesto</th><th>Creado</th></tr>"
+        for (let x in myObj) {
+          text += "<tr><td>" + myObj[x].id + "</td>";
+          text += "<td>" + myObj[x].firstname + "</td>";
+          text += "<td>" + myObj[x].lastname + "</td>";
+          text += "<td>" + myObj[x].email + "</td>";
+          text += "<td>" + myObj[x].depto + "</td>";
+          text += "<td>" + myObj[x].puesto + "</td>";
+          text += "<td>" + myObj[x].reg_date + "</td></tr>";
+        }
+        text += "</table>";
+        document.getElementById("demolu").innerHTML = text;
+      }
+      xmlhttp.open("GET", "php/php_list_user.php?x=" + dbParam);
+      xmlhttp.send();
+}
+</script>
+
+</body>
+</html>
